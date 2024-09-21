@@ -10,6 +10,10 @@ export async function GET(request) {
 
     const apiKey = process.env.GOOGLE_API_KEY;
 
+    if (!apiKey) {
+        return res.status(500).json({ error: 'Google API Key is undefined' });
+    }
+
     try {
         // Fetch video search results from Google API
         const searchResponse = await fetch(
