@@ -13,6 +13,7 @@ import ChallengeReview from "./ChallengeReview";
 import Image from "next/image";
 import ChangingText from "./ChallengeCreating/ChangingText";
 import { SMART_CONTRACT_ABI, SMART_CONTRACT_ADDRESS } from "@/constants/smartcontract";
+import { useTransitionRouter } from "next-view-transitions";
 
 const { Contract, parseUnits, BrowserProvider } = require('ethers');
 
@@ -34,6 +35,7 @@ const variants = {
 };
 
 const CreateChallenge = () => {
+  const router = useTransitionRouter();
   const [loadingChallengeCreation, setLoadingChallengeCreation] = useState(false);
   const [[page, direction], setPage] = useState([0, 0]);
   const challengeDetailsFormRef = useRef(null);
@@ -117,8 +119,34 @@ const CreateChallenge = () => {
     onNext();
   }
 
+  const calculateRepetitions = (start, end, repetitionDays) => {
+    const dayMapping = {
+      sunday: 0,
+      monday: 1,
+      tuesday: 2,
+      wednesday: 3,
+      thursday: 4,
+      friday: 5,
+      saturday: 6
+    };
+  
+    const startDate = new Date(start.year, start.month - 1, start.day);
+    const endDate = new Date(end.year, end.month - 1, end.day);
+  
+    let count = 0;
+  
+    for (let d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
+      const currentDay = d.getDay();
+      if (repetitionDays.some(day => dayMapping[day] === currentDay)) {
+        count++;
+      }
+    }
+  
+    return count;
+  };
+  
   const handleCreateChallenge = async () => {
-    // setLoadingChallengeCreation(true);
+    setLoadingChallengeCreation(true);
   
     const dayMapping = {
       monday: 1,
@@ -129,44 +157,45 @@ const CreateChallenge = () => {
       saturday: 6,
       sunday: 7
     };
-    
+  
     const repetitions = challengeDetails.repetition.map(day => dayMapping[day]);
   
-    // Convert start and end times to Unix timestamps
     const startTime = Math.floor(new Date(challengeDetails.duration.start.year, challengeDetails.duration.start.month - 1, challengeDetails.duration.start.day).getTime() / 1000);
     const duration = Math.floor(new Date(challengeDetails.duration.end.year, challengeDetails.duration.end.month - 1, challengeDetails.duration.end.day).getTime() / 1000) - startTime;
   
-    // Stake amount
-    const stakeAmount = parseUnits(challengeDetails.stake, 18); // 18 decimals for ERC20 token
+    const stakeAmount = parseUnits(challengeDetails.stake, 18);
   
-    // Contract interaction logic
+    const repetitionCount = calculateRepetitions(challengeDetails.duration.start, challengeDetails.duration.end, challengeDetails.repetition);
+  
     try {
       if (!window.ethereum) {
         console.error('No Ethereum wallet detected');
         return;
       }
   
-      const provider = new BrowserProvider(window.ethereum); // Use BrowserProvider in ethers v6
-      const signer = await provider.getSigner(); // Await signer retrieval in ethers v6
+      const provider = new BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
       const contract = new Contract(SMART_CONTRACT_ADDRESS, SMART_CONTRACT_ABI, signer);
   
       const videoLinks = challengeVideos.map(video => `https://www.youtube.com/watch?v=${video.videoId}`);
-
-      // Call the createChallenge method
+  
       const tx = await contract.createChallenge(
-        videoLinks,    // _videoLinks (string[])
-        stakeAmount,        // _stakeAmount (uint256)
-        1,        // _repetitions (uint256[])
-        startTime,          // _startTime (uint256)
-        duration,           // _duration (uint256)
-        true                // _isOpenForSponsors (bool) - hardcoded as true for now
+        videoLinks,         
+        stakeAmount,        
+        repetitionCount,    
+        startTime,          
+        duration,           
+        true
       );
   
-      console.log('Transaction:', tx);
-      await tx.wait(); // Wait for transaction confirmation
-      console.log('Transaction confirmed');
+      const receipt = await tx.wait(3);
+      toast.success('Challenge created successfully! 🎉');
+      router.push('/dashboard');
+      
     } catch (error) {
       console.error('Error creating challenge:', error);
+    } finally {
+      setLoadingChallengeCreation(false);
     }
   };
 

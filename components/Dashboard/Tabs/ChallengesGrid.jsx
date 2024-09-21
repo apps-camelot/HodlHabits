@@ -1,6 +1,8 @@
+import useMyChallenges from "@/hooks/useMyChallenges";
 import { Icon } from "@iconify/react";
 
 const ChallengesGrid = () => {
+  const { challengeData, isLoading, error } = useMyChallenges();
 
   return (
     <section className="h-[calc(100dvh-20rem)]">

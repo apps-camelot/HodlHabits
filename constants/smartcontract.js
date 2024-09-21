@@ -1,4 +1,4 @@
-export const SMART_CONTRACT_ADDRESS = "0xbF7E66c61e868CFe06a249d0ca501A7F76458B23";
+export const SMART_CONTRACT_ADDRESS = "0x3C9F1110FE93B3f9F72b16DbEB53d7C5f4F5Da3a";
 
 export const SMART_CONTRACT_ABI = [
 	{
@@ -1059,4 +1059,4 @@ export const SMART_CONTRACT_ABI = [
 		"stateMutability": "nonpayable",
 		"type": "function"
 	}
-];
+]

@@ -72,7 +72,7 @@ const AVAILABLE_TOKENS = Object.freeze({
         'icon': 'https://s2.coinmarketcap.com/static/img/coins/64x64/512.png',
     },
     'USDC': {
-        'name': 'USD Coin',
+        'name': 'USDC',
         'symbol': 'USDC',
         'decimals': 6,
         'icon': 'https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png',
