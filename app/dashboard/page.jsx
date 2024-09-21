@@ -9,8 +9,8 @@ import {
 import { Icon } from "@iconify/react";
 import ChallengesGrid from "@/components/Dashboard/Tabs/ChallengesGrid";
 import DiscoverTab from "@/components/Dashboard/Tabs/DiscoverTab";
-import SettingsTab from "@/components/Dashboard/Tabs/SettingsTab";
 import { useTransitionRouter } from "next-view-transitions";
+import GlobalChallengesTab from "@/components/Dashboard/Tabs/GlobalChallengesTab";
 
 export default function Component() {
     const router = useTransitionRouter();
@@ -45,15 +45,15 @@ export default function Component() {
                 key="deployments"
                 title={
                     <div className="flex items-center gap-2">
-                        <p>Current challenges</p>
-                        <Chip size="sm">9</Chip>
+                        <p>My challenges</p>
+                        <Icon icon="material-symbols:award-star-outline-rounded" className="text-default-400" width={16} />
                     </div>
                 }
             >
                 <ChallengesGrid />
             </Tab>
 
-            <Tab 
+            {/* <Tab 
                 key="discover" 
                 title={
                     <div className="flex items-center gap-2">
@@ -63,18 +63,18 @@ export default function Component() {
                 }
             >
                 <DiscoverTab />
-            </Tab>
-            {/* <Tab 
+            </Tab> */}
+            <Tab 
                 key="settings" 
                 title={
                     <div className="flex items-center gap-2">
-                        <p>Settings</p>
-                        <Icon icon="solar:settings-linear" className="text-default-400" width={16} />
+                        <p>Global challenges</p>
+                        <Icon icon="ri:compass-line" className="text-default-400" width={16} />
                     </div>
                 }
             >
-                <SettingsTab />
-            </Tab> */}
+                <GlobalChallengesTab />
+            </Tab>
         </Tabs>
     </div>
   );

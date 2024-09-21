@@ -3,11 +3,11 @@ import { Spinner } from "@nextui-org/react";
 import ChallengeCard from "@/components/Challenges/ChallengeCard";
 import useContractChallenges from "@/hooks/useContractChallenges";
 
-const ChallengesGrid = () => {
+const GlobalChallengesTab = () => {
   const { challenges, isLoading, error } = useContractChallenges({
-    getOnlyOwnChallenges: true,
+    getOnlyOwnChallenges: false,
   });
-
+  
   return (
     isLoading && 
     <section className="h-[calc(100dvh-20rem)]">
@@ -40,4 +40,4 @@ const ChallengesGrid = () => {
   )
 }
 
-export default ChallengesGrid
+export default GlobalChallengesTab

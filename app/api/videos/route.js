@@ -11,7 +11,7 @@ export async function GET(request) {
     const apiKey = process.env.GOOGLE_API_KEY;
 
     if (!apiKey) {
-        return res.status(500).json({ error: 'Google API Key is undefined' });
+        return NextResponse.json({ error: "Google API Key not found." }, { status: 500 });
     }
 
     try {

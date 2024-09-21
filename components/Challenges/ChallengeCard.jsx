@@ -1,39 +1,61 @@
-import { Button, Card, Image, CardBody } from "@nextui-org/react";
-import { Icon } from "@iconify/react";
+"use client";
 
-const ChallengeCard = ({ title, videoLinks, stakeAmount, repetitions, startTime, duration }) => {
+import {Card, CardBody, CardFooter, Button, Avatar, Chip, useDisclosure} from "@nextui-org/react";
+import { AcmeIcon } from "../Icons/Acme";
+import JoinChallengeModal from "./JoinChallengeModal";
+import { abbreviateAddress, convertDuration, convertUnixToDate } from "@/constants/util";
+
+const ChallengeCard = ({ 
+  challengeId,
+  creator, 
+  duration, 
+  repetitions, 
+  stakeAmount, 
+  startTime, 
+  isOpenForSponsors,
+  rewardsDistributed,
+}) => {
+  const {isOpen, onOpen, onClose} = useDisclosure();
+
   return (
-    <Card className="w-full max-w-[520px]">
-      <Button
-        isIconOnly
-        className="absolute right-2 top-2 z-20"
-        radius="full"
-        size="sm"
-        variant="light"
+    <>
+      <Card 
+        isPressable
+        className="max-w-[320px] h-fit border-small border-default-100 p-3" 
+        shadow="sm"
+        onClick={onOpen}
       >
-        <Icon className="text-default-400" icon="iconamoon:close-thin" width={24} />
-      </Button>
-      <CardBody className="flex flex-row flex-wrap p-0 sm:flex-nowrap">
-        <Image
-          removeWrapper
-          alt="Acme Creators"
-          className="h-auto w-full flex-none object-cover object-top md:w-48"
-          src="https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/hero-card-complete.jpeg"
-        />
-
-        <div className="px-4 py-5">
-          <h3 className="text-large font-medium">{ title }</h3>
-          <div className="flex flex-col gap-3 pt-2 text-small text-default-400">
-            <p>
-              Visit creators.acme.com to sign up today and start earning credits from your fans and
-              followers.
-            </p>
-            <p>Acme supports YouTube, Twitch, Vimeo and more!</p>
+        <CardBody className="px-4 pb-1">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex max-w-[80%] flex-col gap-1">
+              <p className="text-medium font-medium">{ abbreviateAddress(creator) }'s challenge</p>
+              <p className="text-small text-default-500">{ convertUnixToDate(startTime) }</p>
+            </div>
+            <Avatar className="bg-content2" icon={<AcmeIcon />} />
           </div>
-        </div>
-      </CardBody>
-    </Card>
-  );
+            <p className="text-small text-default-500">{ convertDuration(duration) }</p>
+            <p className="text-small text-default-500">{ repetitions } repetitions</p>
+            <p className="text-small text-default-500">{ stakeAmount } stake amount</p>
+        </CardBody>
+        <CardFooter className="justify-between gap-2">
+          {
+            isOpenForSponsors && 
+            <Chip color="primary" variant="dot">
+              Open for sponsors
+            </Chip>
+          }
+          {
+            rewardsDistributed && 
+            <Chip color="success" variant="dot">
+              Rewards distributed
+            </Chip>
+          }
+        </CardFooter>
+      </Card>
+
+      <JoinChallengeModal isOpen={isOpen} onClose={onClose} challengeId={challengeId} />
+    </>
+  )
 }
 
 export default ChallengeCard
