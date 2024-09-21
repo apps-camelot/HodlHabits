@@ -91,4 +91,4 @@ const AVAILABLE_TOKENS = Object.freeze({
     },
 })
 
-export const DEFAULT_TOKEN = AVAILABLE_TOKENS.USDT;
+export const DEFAULT_TOKEN = AVAILABLE_TOKENS.USDC;

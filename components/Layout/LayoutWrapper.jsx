@@ -2,10 +2,23 @@
 
 import { DynamicContextProvider } from "@dynamic-labs/sdk-react-core";
 import { EthereumWalletConnectors } from "@dynamic-labs/ethereum";
+import { baseSepolia } from "viem/chains";
 import { Toaster } from "react-hot-toast";
 import Nav from "./Nav/Nav";
 import { useAppStore } from "@/context/state";
 import { Spinner } from "@nextui-org/react";
+
+const baseSepoliaNetwork = {
+  chainId: '0x14a34',
+  chainName: 'Base Sepolia',
+  rpcUrls: ['https://sepolia.basescan.org'],
+  nativeCurrency: {
+    name: 'SepoliaETH',
+    symbol: 'SepoliaETH',
+    decimals: 18,
+  },
+  blockExplorerUrls: ['https://sepolia.basescan.org'],
+}
 
 const LayoutWrapper = ({ children }) => {
   const { isDynamicAuth, isWorldCoinAuth } = useAppStore();
