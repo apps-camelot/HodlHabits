@@ -29,7 +29,7 @@ export async function GET(request) {
         return NextResponse.json(videos, { status: 200 });
     } catch (error) {
         console.error('Error fetching videos:', error);
-        return NextResponse.json({ error: 'Error fetching videos' }, { status: 500 });
+        return NextResponse.json({ error: `Error fetching videos: ${error}` }, { status: 500 });
     }
 }
 
