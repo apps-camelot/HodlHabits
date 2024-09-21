@@ -1,4 +1,4 @@
-export const SMART_CONTRACT_ADDRESS = "0x3C9F1110FE93B3f9F72b16DbEB53d7C5f4F5Da3a";
+export const SMART_CONTRACT_ADDRESS = "0x37e8F36c2670894A0B5F097e8c608617075B8764";
 
 export const SMART_CONTRACT_ABI = [
 	{
@@ -179,6 +179,12 @@ export const SMART_CONTRACT_ABI = [
 				"internalType": "uint256",
 				"name": "duration",
 				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
 			}
 		],
 		"name": "ChallengeCreated",
@@ -353,6 +359,19 @@ export const SMART_CONTRACT_ABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "approveTokenTransfer",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "challengeCounter",
 		"outputs": [
@@ -375,6 +394,11 @@ export const SMART_CONTRACT_ABI = [
 		],
 		"name": "challenges",
 		"outputs": [
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
 			{
 				"internalType": "address",
 				"name": "creator",
@@ -444,6 +468,11 @@ export const SMART_CONTRACT_ABI = [
 	},
 	{
 		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			},
 			{
 				"internalType": "string[]",
 				"name": "_videoLinks",

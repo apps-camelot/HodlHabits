@@ -20,6 +20,7 @@ const GlobalChallengesTab = () => {
           return (
             <ChallengeCard
               key={index}
+              title={challenge.title}
               challengeId={challenge.challengeId}
               creator={challenge.creator}
               duration={challenge.duration}

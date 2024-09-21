@@ -38,21 +38,22 @@ const useContractChallenges = ({
             const data = await contract.challenges(i);
             const challengeVideos = await contract.getChallengeVideos(i);
   
-            if (getOnlyOwnChallenges && data[0] !== currentAddress) return null;
+            if (getOnlyOwnChallenges && data[1] != currentAddress) return null;
             if (prevChallengeId === i) return null;
   
             const challengeData = {
               challengeId: i,
-              creator: data[0],
-              stakeAmount: ethers.formatUnits(data[1], 18),
-              repetitions: data[2].toString(),
-              startTime: data[3].toString(),
-              duration: data[4].toString(),
-              isOpenForSponsors: data[5],
-              rewardsDistributed: data[6],
-              totalStakeAmount: ethers.formatUnits(data[7], 18),
-              totalSponsoredAmount: ethers.formatUnits(data[8], 18),
-              totalPenalizedAmount: ethers.formatUnits(data[9], 18),
+              title: data[0],
+              creator: data[1],
+              stakeAmount: ethers.formatUnits(data[2], 6),
+              repetitions: data[3].toString(),
+              startTime: data[4].toString(),
+              duration: data[5].toString(),
+              isOpenForSponsors: data[6],
+              rewardsDistributed: data[7],
+              totalStakeAmount: ethers.formatUnits(data[8], 6),
+              totalSponsoredAmount: ethers.formatUnits(data[9], 6),
+              totalPenalizedAmount: ethers.formatUnits(data[10], 6),
               challengeVideos: challengeVideos[0]
             };
             

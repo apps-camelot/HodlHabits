@@ -163,7 +163,7 @@ const CreateChallenge = () => {
     const startTime = Math.floor(new Date(challengeDetails.duration.start.year, challengeDetails.duration.start.month - 1, challengeDetails.duration.start.day).getTime() / 1000);
     const duration = Math.floor(new Date(challengeDetails.duration.end.year, challengeDetails.duration.end.month - 1, challengeDetails.duration.end.day).getTime() / 1000) - startTime;
   
-    const stakeAmount = parseUnits(challengeDetails.stake, 18);
+    const stakeAmount = parseUnits(challengeDetails.stake, 6);
   
     const repetitionCount = calculateRepetitions(challengeDetails.duration.start, challengeDetails.duration.end, challengeDetails.repetition);
   
@@ -178,13 +178,15 @@ const CreateChallenge = () => {
       const contract = new Contract(SMART_CONTRACT_ADDRESS, SMART_CONTRACT_ABI, signer);
   
       const videoLinks = challengeVideos.map(video => `https://www.youtube.com/watch?v=${video.videoId}`);
-  
+      const name = challengeDetails.title;
+
       const tx = await contract.createChallenge(
-        videoLinks,         
-        stakeAmount,        
-        repetitionCount,    
-        startTime,          
-        duration,           
+        name,
+        videoLinks,
+        stakeAmount,
+        repetitionCount,
+        startTime,
+        duration,
         true
       );
   
