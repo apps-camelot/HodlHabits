@@ -1,0 +1,69 @@
+"use client";
+
+import { Avatar, Badge, Button } from "@nextui-org/react";
+import { Icon } from "@iconify/react";
+import { cn } from "@nextui-org/react";
+
+
+import React from 'react'
+
+const NotificationItem = ({ children, avatar, name, description, type, time, isRead, className, ...props }) => {
+    const contentByType = {
+        default: null,
+        request: (
+          <div className="flex gap-2 pt-2">
+            <Button color="primary" size="sm">
+              Accept
+            </Button>
+            <Button size="sm" variant="flat">
+              Decline
+            </Button>
+          </div>
+        ),
+  
+        file: (
+          <div className="flex items-center gap-2">
+            <Icon className="text-secondary" icon="solar:figma-file-linear" width={30} />
+            <div className="flex flex-col">
+              <strong className="text-small font-medium">Brand_Logo_v1.2.fig</strong>
+              <p className="text-tiny text-default-400">3.4 MB</p>
+            </div>
+          </div>
+        ),
+      };
+  
+      return (
+        <div
+          className={cn(
+            "flex gap-3 border-b border-divider px-6 py-4",
+            {
+              "bg-primary-50/50": !isRead,
+            },
+            className,
+          )}
+          {...props}
+        >
+          <div className="relative flex-none">
+            <Badge
+              color="primary"
+              content=""
+              isInvisible={isRead}
+              placement="bottom-right"
+              shape="circle"
+            >
+              <Avatar src={avatar} />
+            </Badge>
+          </div>
+          <div className="flex flex-col gap-1">
+            <p className="text-small text-foreground">
+              <strong className="font-medium">{name}</strong> {description || children}
+            </p>
+            <time className="text-tiny text-default-400">{time}</time>
+            {type && contentByType[type]}
+          </div>
+        </div>
+      );
+}
+
+
+export default NotificationItem;
