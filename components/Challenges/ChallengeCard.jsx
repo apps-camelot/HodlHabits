@@ -1,10 +1,11 @@
 "use client";
 
-import {Card, CardBody, CardFooter, Button, Avatar, Chip, useDisclosure} from "@nextui-org/react";
+import {Card, CardBody, CardFooter, Avatar, Chip, useDisclosure} from "@nextui-org/react";
 import { AcmeIcon } from "../Icons/Acme";
 import JoinChallengeModal from "./JoinChallengeModal";
 import { abbreviateAddress, convertDuration, convertUnixToDate } from "@/constants/util";
 import { useTransitionRouter } from "next-view-transitions";
+import { useEffect, useState } from "react";
 
 const { ethers, BrowserProvider } = require('ethers');
 
@@ -18,22 +19,34 @@ const ChallengeCard = ({
   startTime, 
   isOpenForSponsors,
   rewardsDistributed,
+  participants
 }) => {
   const router = useTransitionRouter();
   const {isOpen, onOpen, onClose} = useDisclosure();
+  const [hasAlreadyJoined, setHasAlreadyJoined] = useState(false);
+
+  console.debug(`hasAlreadyJoined ${title}`, hasAlreadyJoined);
 
   const handleOpenCard = async () => {
-    const provider = new BrowserProvider(window.ethereum);
-    const signer = await provider.getSigner();
-    const currentAddress = await signer.getAddress();
-
-    if (creator === currentAddress) {
+    if (hasAlreadyJoined) {
       router.push(`/challenge/${challengeId}`);
       return;
     }
 
     onOpen();
   }
+
+  useEffect(() => {
+    const handleSearchIfJoinedAlready = async () => {
+      const provider = new BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const currentAddress = await signer.getAddress();
+  
+      return setHasAlreadyJoined(participants.find((participant) => participant.address === currentAddress));
+    }
+
+    handleSearchIfJoinedAlready();
+  }, [participants]);
 
   return (
     <>
@@ -67,6 +80,12 @@ const ChallengeCard = ({
             rewardsDistributed && 
             <Chip color="success" variant="dot">
               Rewards distributed
+            </Chip>
+          }
+          {
+            hasAlreadyJoined && 
+            <Chip color="primary" variant="shadow">
+              Joined
             </Chip>
           }
         </CardFooter>

@@ -29,6 +29,7 @@ const ChallengesGrid = () => {
               startTime={challenge.startTime}
               isOpenForSponsors={challenge.isOpenForSponsors}
               rewardsDistributed={challenge.rewardsDistributed}
+              participants={challenge.participants}
             />
           )
         }) ||

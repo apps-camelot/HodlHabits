@@ -2,6 +2,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { SMART_CONTRACT_ABI, SMART_CONTRACT_ADDRESS } from "@/constants/smartcontract";
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, Spinner } from "@nextui-org/react";
+import { useTransitionRouter } from "next-view-transitions";
 
 const { Contract, BrowserProvider } = require('ethers');
 
@@ -10,6 +11,7 @@ const JoinChallengeModal = ({
     onClose,
     challengeId,
 }) => {  
+    const router = useTransitionRouter();
     const [joiningChallenge, setJoiningChallenge] = useState(false);
 
     const handleJoinChallenge = async () => {
@@ -28,6 +30,7 @@ const JoinChallengeModal = ({
             const receipt = await tx.wait(3);
             toast.success('Joined challenge! 🎉');
             onClose();
+            router.push(`/challenge/${challengeId}`);
         } catch (error) {
             console.error('Error joining challenge:', error);
             toast.error('Error joining challenge. Please try again.');

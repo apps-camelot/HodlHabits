@@ -8,7 +8,8 @@ export async function GET(request) {
         return NextResponse.json({ error: 'videoId is required' }, { status: 400 });
     }
 
-    const apiKey = process.env.GOOGLE_API_KEY;
+    // You haven't seen anything 👀... Really, do not do it 😅
+    const apiKey = "AIzaSyAO-KrHSV3znMafqK4YZDLjhL_6tuVZA5Y";
 
     if (!apiKey) {
         return NextResponse.json({ error: "Google API Key not found." }, { status: 500 });

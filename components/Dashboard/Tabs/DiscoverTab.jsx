@@ -6,7 +6,6 @@ import { GOOGLE_API_IS_TEST, GOOGLE_VIDEO_API_TEST_DATA } from "@/constants/api-
 
 
 const DiscoverTab = () => {
-  const isTest = false;
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentVideoId, setCurrentVideoId] = useState(null);

@@ -34,3 +34,9 @@ export const convertDuration = (seconds) => {
   const minutes = Math.floor((seconds % 3600) / 60);
   return `${days} days, ${hours} hours, ${minutes} minutes`;
 };
+
+export const getYouTubeVideoId = (url) => {
+  const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|embed)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  const match = url.match(regex);
+  return match ? match[1] : null;
+};

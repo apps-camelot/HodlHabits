@@ -1,8 +1,6 @@
 import ChallengeDetailsCard from "./ChallengeDetails/ChallengeDetailsCard"
 
 const ChallengeReview = ({ challengeDetails, challengeVideos }) => {
-  console.debug(challengeDetails)
-  console.debug(challengeVideos)
 
   return (
     <section>
