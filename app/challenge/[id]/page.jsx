@@ -5,6 +5,8 @@ import useContractChallenges from "@/hooks/useContractChallenges";
 import { getYouTubeVideoId } from '@/constants/util';
 import toast from 'react-hot-toast';
 import { SMART_CONTRACT_ABI, SMART_CONTRACT_ADDRESS } from '@/constants/smartcontract';
+import { useDisclosure } from '@nextui-org/react';
+import AttestFormModal from '@/components/Attest/AttestFormModal';
 
 const { Contract, BrowserProvider, formatUnits } = require('ethers');
 
@@ -15,6 +17,7 @@ const Page = ({ params }) => {
     specificChallengeId: id
   });
 
+  const {isOpen, onOpen, onClose} = useDisclosure();
   const [isPlaying, setIsPlaying] = useState(false);
   const [videoUrl, setVideoUrl] = useState('');
   const [showPlayer, setShowPlayer] = useState(false);
@@ -165,7 +168,15 @@ const Page = ({ params }) => {
 
         {/* Challenge details below the video */}
         <div className="w-full bg-gray-100 p-6 mt-4 rounded-md">
-          <h2 className="text-2xl font-semibold mb-4">{challenge.title}</h2>
+          <div className='w-full flex justify-between items-center pb-4'>
+            <h2 className="text-2xl font-semibold mb-4">{challenge.title}</h2>
+            <button
+              className="bg-slate-200 text-black px-6 py-3 rounded"
+              onClick={onOpen}
+            >
+              Attest winner
+            </button>
+          </div>
           <div className="grid grid-cols-2 gap-4">
             <p className="text-gray-600">
               <strong>Creator:</strong> {challenge.creator}
@@ -188,6 +199,7 @@ const Page = ({ params }) => {
           </div>
         </div>
       </div>
+      <AttestFormModal isOpen={isOpen} onClose={onClose} />
     </div>
   );
 };
