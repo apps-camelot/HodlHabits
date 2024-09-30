@@ -38,6 +38,10 @@ const ChallengeCard = ({
 
   useEffect(() => {
     const handleSearchIfJoinedAlready = async () => {
+      if(!participants) {
+        setHasAlreadyJoined(false);
+        return;
+      }
       const provider = new BrowserProvider(window.ethereum);
       const signer = await provider.getSigner();
       const currentAddress = await signer.getAddress();
